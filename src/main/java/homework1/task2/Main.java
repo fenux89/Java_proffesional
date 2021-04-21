@@ -1,6 +1,7 @@
 package homework1.task2;
 
 
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,5 +45,7 @@ public class Main {
         } catch (Exception e){
             System.out.println("Сработало исключение");
         }
+
+
     }
 }

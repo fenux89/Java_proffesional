@@ -52,14 +52,26 @@ public class MyArrayList<T> {
             }
         }
     }
-
-    public int indexOF(T value) {
-        for (int i = 0; i < count; i++) {
-            if (this.myArray[i] == value) {
-                return i;
+    int indexOfRange(Object o, int start, int end) {
+        Object[] es = myArray;
+        if (o == null) {
+            for (int i = start; i < end; i++) {
+                if (es[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = start; i < end; i++) {
+                if (o.equals(es[i])) {
+                    return i;
+                }
             }
         }
         return -1;
+    }
+
+    public int indexOF(Object obj) {
+       return indexOfRange(obj, 0, size());
     }
 
     public int size() {
