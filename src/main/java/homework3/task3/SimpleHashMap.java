@@ -54,12 +54,14 @@ public class SimpleHashMap<K, V> {
                     if (node.next == null) {
                         oldValue = (V) node.value;
                         old.next = null;
+                        size--;
                         return oldValue;
                     } else if (node.next != null && count == 0) {
                         table[i] = node.next;
                     } else {
                         old.next = node.next;
                         oldValue = (V) node.value;
+                        size--;
                         return oldValue;
                     }
                 }
@@ -71,6 +73,7 @@ public class SimpleHashMap<K, V> {
             table[i] = null;
 
         }
+        size--;
         return oldValue;
     }
 
