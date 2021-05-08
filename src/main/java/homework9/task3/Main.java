@@ -9,7 +9,7 @@ public class Main {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
              ObjectInputStream in = new ObjectInputStream(new FileInputStream(f))) {
 
-            car.writeExternal(out);
+           // car.writeExternal(out);
             out.writeObject(car);
 
             System.out.println(car);
@@ -17,7 +17,8 @@ public class Main {
             car = new Car(11, "Green", 4);
 
             System.out.println(car);
-            car.readExternal(in);
+            //car.readExternal(in);
+            car = (Car) in.readObject();
 
             System.out.println(car);
 

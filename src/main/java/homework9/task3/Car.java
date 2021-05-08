@@ -10,6 +10,9 @@ public class Car implements Externalizable {
     private static String color;
     int size;
 
+    public Car() {
+    }
+
     public Car(int age, String color, int size) {
         this.age = age;
         Car.color = color;
@@ -21,6 +24,7 @@ public class Car implements Externalizable {
         out.writeInt(age);
         out.writeObject(color);
         out.writeInt(size);
+       // out.writeObject(null);
     }
 
     @Override
