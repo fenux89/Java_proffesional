@@ -42,7 +42,7 @@ public class AnimalParser {
                         name = false;
                     }
                     if (breed) {
-                        System.out.println("Breed: " + new String(ch, start, length));
+                        System.out.println("Name: " + new String(ch, start, length));
                         breed = false;
                     }
                 }
