@@ -16,8 +16,8 @@ public class MyLinkedList<E> implements Cloneable {
     public MyLinkedList() {
     }
 
-    MyIterator returnIterator() {
-        return new MyLinkedList.MyIterator();
+    MyIterator returnIterator(int index) {
+        return new MyLinkedList.MyIterator(index);
     }
 
     MyLinkedList.Node<E> node(int index) {
@@ -303,7 +303,7 @@ public class MyLinkedList<E> implements Cloneable {
     }
 
 
-    private static class Node<E> implements Iterator<Node<E>> {
+    private static class Node<E> {
         E item;
         MyLinkedList.Node<E> next;
         MyLinkedList.Node<E> prev;
@@ -316,38 +316,35 @@ public class MyLinkedList<E> implements Cloneable {
             this.next = next;
             this.prev = prev;
         }
-
-
-        @Override
-        public boolean hasNext() {
-            return next!=null;
-        }
-
-        @Override
-        public Node<E> next() {
-            if (next == null) throw new NoSuchElementException();
-            Node<E> res = next;
-            next = next.next;
-            return res;
-        }
     }
+
     class MyIterator implements Iterator<E> {
 
-      //  MyLinkedList.Node<E> iter = new MyLinkedList.Node<>();
+        private MyLinkedList.Node<E> lastReturned;
+        private MyLinkedList.Node<E> next;
+        private int nextIndex;
 
-        MyIterator() {
+
+        MyIterator(int index) {
+            next = (index == size) ? null : node(index);
+            nextIndex = index;
         }
 
         @Override
         public boolean hasNext() {
-           // return iter.hasNext() ;
-            return hasNext();
+            return nextIndex < size;
+
         }
 
         @Override
         public E next() {
-            //return iter.next().item;
-            return this.next();
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            lastReturned = next;
+            next = next.next;
+            nextIndex++;
+            return lastReturned.item;
         }
     }
 
