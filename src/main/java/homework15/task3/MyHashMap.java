@@ -1,14 +1,13 @@
 package homework15.task3;
 
-import homework3.task3.SimpleHashMap;
 
 import java.util.*;
 
-public class MyHashMap<K, V>{
+public class MyHashMap<K, V> {
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
-    transient MyHashMap.Node<K,V>[] table;
-    transient Set<Map.Entry<K,V>> entrySet;
+    transient MyHashMap.Node<K, V>[] table;
+    transient Set<Map.Entry<K, V>> entrySet;
     transient int size;
     transient int modCount;
 
@@ -17,7 +16,7 @@ public class MyHashMap<K, V>{
     }
 
     public void clear() {
-        MyHashMap.Node<K,V>[] tab;
+        MyHashMap.Node<K, V>[] tab;
         modCount++;
         if ((tab = table) != null && size > 0) {
             size = 0;
@@ -25,6 +24,7 @@ public class MyHashMap<K, V>{
                 tab[i] = null;
         }
     }
+
     public int indexFor(int hashValue, int length) {
         return hashValue % length;
     }
@@ -44,16 +44,17 @@ public class MyHashMap<K, V>{
         addNode(key, value, hashValue, i);
         return null;
     }
+
     public void addNode(K key, V value, int hashValue, int i) {
 
         if (++size >= table.length * DEFAULT_LOAD_FACTOR) {
-           MyHashMap.Node[] newTable = new MyHashMap.Node[table.length << 1];
+            MyHashMap.Node[] newTable = new MyHashMap.Node[table.length << 1];
 
             for (int j = 0; j < table.length; j++) {
                 MyHashMap.Node e = table[j];
                 table[j] = null;
                 do {
-                   MyHashMap.Node next = e.next;
+                    MyHashMap.Node next = e.next;
                     int s = indexFor(e.hash, newTable.length);
                     e.next = newTable[s];
                     newTable[s] = e;
@@ -115,23 +116,23 @@ public class MyHashMap<K, V>{
         return null;
     }
 
-    final MyHashMap.Node<K,V> getNode(int hash, Object key) {
-        MyHashMap.Node<K,V>[] tab = table;
+    final MyHashMap.Node<K, V> getNode(int hash, Object key) {
+        MyHashMap.Node<K, V>[] tab = table;
         int n = tab.length;
         int j = indexFor(hash(key), table.length);
-        if (tab[j]==null){
+        if (tab[j] == null) {
             return null;
         }
-        MyHashMap.Node<K,V> first = tab[indexFor(hash(key), table.length)], e =first.next;
+        MyHashMap.Node<K, V> first = tab[indexFor(hash(key), table.length)], e = first.next;
 
-        K k= first.key;
-        if (tab != null && n  > 0 && first != null) {
+        K k = first.key;
+        if (tab != null && n > 0 && first != null) {
             if (first.hash == hash && (k == key || (key != null && key.equals(k))))
                 return first;
-            if (e  != null) {
-                for (MyHashMap.Node<K,V> node = first; node != null; node = node.next) {
+            if (e != null) {
+                for (MyHashMap.Node<K, V> node = first; node != null; node = node.next) {
 
-                    if (node.hash == hash && (node.key == key || (key != null && key.equals(node.key)))){
+                    if (node.hash == hash && (node.key == key || (key != null && key.equals(node.key)))) {
 
                         return node;
                     }
@@ -146,10 +147,10 @@ public class MyHashMap<K, V>{
     }
 
     public boolean containsValue(Object value) {
-        MyHashMap.Node<K,V>[] tab=table;
+        MyHashMap.Node<K, V>[] tab = table;
         V v;
         if (tab != null && size > 0) {
-            for (MyHashMap.Node<K,V> e : tab) {
+            for (MyHashMap.Node<K, V> e : tab) {
                 for (; e != null; e = e.next) {
                     if ((v = e.value) == value || (value != null && value.equals(v)))
                         return true;
@@ -164,15 +165,15 @@ public class MyHashMap<K, V>{
     }
 
     public Set<K> keySet() {
-        MyHashMap.Node<K,V>[] tab=table;
-        MyHashMap.Node<K,V> nod;
-        Set<K> ks = new HashSet<>() ;
-        if (size!=0){
+        MyHashMap.Node<K, V>[] tab = table;
+        MyHashMap.Node<K, V> nod;
+        Set<K> ks = new HashSet<>();
+        if (size != 0) {
             for (int j = 0; j < table.length; j++) {
-                nod=tab[j];
-                if (nod!=null) {
+                nod = tab[j];
+                if (nod != null) {
                     ks.add(nod.key);
-                    for (MyHashMap.Node<K,V> node = tab[1]; node!=null; node = node.next) {
+                    for (MyHashMap.Node<K, V> node = tab[1]; node != null; node = node.next) {
                         if (node != null) {
                             ks.add(node.key);
                         }
@@ -189,29 +190,36 @@ public class MyHashMap<K, V>{
         return size;
     }
 
-
     public int hash(Object key) {
         int h;
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
 
-    static class Node<K,V> implements Map.Entry<K,V> {
+    static class Node<K, V> implements Map.Entry<K, V> {
         final int hash;
         final K key;
         V value;
-        MyHashMap.Node<K,V> next;
+        MyHashMap.Node<K, V> next;
 
-        Node(int hash, K key, V value, MyHashMap.Node<K,V> next) {
+        Node(int hash, K key, V value, MyHashMap.Node<K, V> next) {
             this.hash = hash;
             this.key = key;
             this.value = value;
             this.next = next;
         }
 
-        public final K getKey()        { return key; }
-        public final V getValue()      { return value; }
-        public final String toString() { return key + "=" + value; }
+        public final K getKey() {
+            return key;
+        }
+
+        public final V getValue() {
+            return value;
+        }
+
+        public final String toString() {
+            return key + "=" + value;
+        }
 
         public final int hashCode() {
             return Objects.hashCode(key) ^ Objects.hashCode(value);
@@ -223,16 +231,5 @@ public class MyHashMap<K, V>{
             return oldValue;
         }
 
-        public final boolean equals(Object o) {
-            if (o == this)
-                return true;
-            if (o instanceof Map.Entry) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-                if (Objects.equals(key, e.getKey()) &&
-                        Objects.equals(value, e.getValue()))
-                    return true;
-            }
-            return false;
-        }
     }
 }
